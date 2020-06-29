@@ -35,7 +35,6 @@ app.post("/sendfecha", (req, res) => {
   
   async function getclimate(callback) {
     axios.get(`https://api.datos.gob.mx/v1/condiciones-atmosfericas`).then(response => {
-        console.log(response.data);
         callback(response.data);
     })
     
