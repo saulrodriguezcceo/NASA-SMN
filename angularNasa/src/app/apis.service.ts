@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 export class ApisService {
 
   constructor(private httpClient: HttpClient) { }
+  
   sendFecha(url, data) {
     return this.httpClient.post(url, data);
   }

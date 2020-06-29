@@ -9,7 +9,8 @@ import { ApisService } from '../apis.service'
   styleUrls: ['./nasa.component.css']
 })
 export class NasaComponent implements OnInit {
-
+  bandera:boolean;
+  res:any;
   constructor(private formBuilder: FormBuilder, public apis:ApisService) { }
   fecha=new FormControl("", [
     Validators.required,
@@ -18,8 +19,10 @@ export class NasaComponent implements OnInit {
 
   enviar(){
     let datos ={
-      fecha: this.fecha.value
+      fecha: this.fecha.value,
+      key:'XpxjFrQKUeb1kuy5mZ7mLjDkWc2S1Ao5ZG6kl6vU'
     }
+    console.log(datos.fecha);
     
     this.apis.sendFecha("https://localhost:3000/sendfecha",datos).subscribe(
       data => {
@@ -27,7 +30,16 @@ export class NasaComponent implements OnInit {
         console.log(
           `Todo salio perfecto y se envio`
         );
+        if(res.msg != null){
+          this.bandera=false;
+        }else if(res.title != null){
+          this.bandera=true;
+        }else{
+          this.bandera=null;
+        }
+        this.res=res;
       }
+      
     );
    
   }

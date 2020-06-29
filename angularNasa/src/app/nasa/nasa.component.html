@@ -3,15 +3,24 @@
     <div class="form-group  row" >
         <label for="staticEmail" class="col-sm-5 col-form-label">Ingresa La fecha que deseas consultar</label>
         <div class="col-sm-4">
-            <input class="form-control form-control-lg" type="text" placeholder="ej. Hernandez" id="inputLarge" [formControl]="fecha"><br>
+            <input class="form-control form-control-lg" type="date" placeholder="ej. Hernandez" id="inputLarge" [formControl]="fecha"><br>
             <button  type="button" class="btn btn-primary" (click)="enviar()">Enviar!</button>
         </div>
     </div>
-    <div class="card border-warning form-group mb-3" style="max-width: 20rem;">
-       <div class="card-header">Header</div>
-           <div class="card-body">
-            <h4 class="card-title">Warning card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <div class="card border-warning form-group mb-3" style="max-width: 20rem;" *ngIf="this.bandera">
+       <div class="card-header"  >{{res.title}}</div>
+           <div class="card-body" >
+            <h4 class="card-title">{{res.date}}</h4>
+            <p class="card-text">{{res.description}}</p>
+            <img class="card-img-top" [src]="res.url" >
           </div>
     </div>
+
+    <ng-template  *ngIf="!this.bandera">
+        <div class="alert alert-dismissible alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4 class="alert-heading">Warning!</h4>
+            <p class="mb-0">Best check yo self, you're not looking too good. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna, <a href="#" class="alert-link">vel scelerisque nisl consectetur et</a>.</p>
+          </div>
+    </ng-template>
     
