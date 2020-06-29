@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApisService } from '../apis.service'
 
 @Component({
   selector: 'app-gobierno',
@@ -7,9 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GobiernoComponent implements OnInit {
 
-  constructor() { }
+  estados:any[]=[];
+  constructor(public apis:ApisService) {
+
+    this.apis.sendClimas("http://localhost:3000/getatmosferas").subscribe(
+    data => {
+      this.estados = data; 
+      console.log(
+        `Todo salio perfecto y se envio`
+      );
+     
+    
+    },
+    err => {
+      
+      console.log(err);
+    }
+    
+  );
+   }
 
   ngOnInit(): void {
   }
 
+  
 }

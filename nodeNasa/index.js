@@ -1,8 +1,10 @@
 const express = require('express');
+const cors = require("cors");
 const bodyParser = require('body-parser');
 const axios = require('axios');
 
 const app = express();
+app.use(cors({ origin: "*" }));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.listen(3000, (err, res) => {
@@ -24,6 +26,15 @@ app.post("/sendfecha", (req, res) => {
     axios.get(`https://api.nasa.gov/planetary/apod?api_key=${myData.key}&date=${myData.fecha}`).then(response => {
         console.log(response.data);
         callback(response.data);
+    })
+    .catch(err => {
+      if (err.response) {
+        callback(false)
+      } else if (err.request) {
+        callback(false)
+      } else {
+        callback(false)
+      }
     })
     
   }
