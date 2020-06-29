@@ -10,34 +10,41 @@ import { ApisService } from '../apis.service'
 })
 export class NasaComponent implements OnInit {
   bandera:boolean;
+  bandera2:boolean;
   res:any;
-  constructor(private formBuilder: FormBuilder, public apis:ApisService) { }
+  constructor(private formBuilder: FormBuilder, public apis:ApisService) {this.bandera2=false; }
   fecha=new FormControl("", [
     Validators.required,
     Validators.minLength(4)
   ]);
 
   enviar(){
+    
     let datos ={
       fecha: this.fecha.value,
       key:'XpxjFrQKUeb1kuy5mZ7mLjDkWc2S1Ao5ZG6kl6vU'
     }
     console.log(datos.fecha);
     
-    this.apis.sendFecha("https://localhost:3000/sendfecha",datos).subscribe(
+    this.apis.sendFecha("http://localhost:3000/sendfecha",datos).subscribe(
       data => {
+        this.bandera2=true;
         let res:any = data; 
         console.log(
           `Todo salio perfecto y se envio`
         );
-        if(res.msg != null){
-          this.bandera=false;
-        }else if(res.title != null){
-          this.bandera=true;
-        }else{
-          this.bandera=null;
-        }
+        this.bandera=true;
         this.res=res;
+        if(this.res==false){
+          this.bandera=false;
+        }
+        console.log(
+          `Resultado ${this.res}`
+        );
+      },
+      err => {
+        this.bandera=false;
+        console.log(err);
       }
       
     );
