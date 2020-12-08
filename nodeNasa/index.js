@@ -17,13 +17,34 @@ app.listen(3000, (err, res) => {
 
 app.post("/sendfecha", (req, res) => {
     let myData = req.body;
-    sendMail(myData, info => {
+    sendDate(myData, info => {
       res.send(info);
     });
   });
 
-  async function sendMail(myData, callback) {
+  async function sendDate(myData, callback) {
     axios.get(`https://api.nasa.gov/planetary/apod?api_key=${myData.key}&date=${myData.fecha}`).then(response => {
+        console.log(response.data);
+        callback(response.data);
+    })
+    .catch(err => {
+      if (err.response) {
+        callback(false)
+      } else if (err.request) {
+        callback(false)
+      } else {
+        callback(false)
+      }
+    })
+  }
+  app.post("/firebase/setdate", (req,res) =>{
+    let myData = req.body;
+    postDateFirebase(myData, info => {
+      res.send(info);
+    });
+  });
+  async function postDateFirebase(myData, callback) {
+    axios.post(`https://nasa-clima-default-rtdb.firebaseio.com/dates`).then(response => {
         console.log(response.data);
         callback(response.data);
     })
@@ -48,5 +69,30 @@ app.post("/sendfecha", (req, res) => {
     axios.get(`https://api.datos.gob.mx/v1/condiciones-atmosfericas`).then(response => {
         callback(response.data);
     })
-    
+  }
+
+  app.post("/climates", (req, res) => {
+    let myData = req.body;
+    console.log(myData.country);
+    console.log(myData.state);
+    getClimates(myData, info => {
+      res.send(info);
+    });
+  });
+
+  async function getClimates(myData, callback) {
+    axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${myData.state},${myData.country}&appid=64155071306d8adb3bc6b75c4476acad`).then(response => {
+        console.log(response.data);
+        callback(response.data);
+    }).catch(err => {
+      if (err.response) {
+        console.log(err.response.data);
+        callback(false)
+      } else if (err.request) {
+        console.log(err.request.data);
+        callback(false)
+      } else {
+        callback(false)
+      }
+    })
   }

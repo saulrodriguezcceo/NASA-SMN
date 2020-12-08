@@ -50,7 +50,7 @@ export class NasaComponent implements OnInit {
     );
    
   }
-
+ 
   ngOnInit(): void {
   }
 

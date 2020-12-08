@@ -14,4 +14,7 @@ export class ApisService {
   sendClimas(url){
      return (this.httpClient.get(url)).pipe(map((data:any)=>data["results"]));
   }
+  getClimates(url, data){
+    return this.httpClient.post(url, data);
+ }
 }
