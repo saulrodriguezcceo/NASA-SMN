@@ -8,12 +8,14 @@ import { GobiernoComponent } from './gobierno/gobierno.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { FavoritosComponent } from './favoritos/favoritos.component';
 @NgModule({
   declarations: [
     AppComponent,
     NasaComponent,
     GobiernoComponent,
-    NavbarComponent
+    NavbarComponent,
+    FavoritosComponent
   ],
   imports: [
     BrowserModule,

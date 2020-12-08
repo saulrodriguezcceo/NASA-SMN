@@ -37,27 +37,60 @@ app.post("/sendfecha", (req, res) => {
       }
     })
   }
-  app.post("/firebase/setdate", (req,res) =>{
+  app.post("/save/date", (req,res) =>{
     let myData = req.body;
+    
     postDateFirebase(myData, info => {
       res.send(info);
     });
   });
   async function postDateFirebase(myData, callback) {
-    axios.post(`https://nasa-clima-default-rtdb.firebaseio.com/dates`).then(response => {
+    var dateObject = {
+      date : myData.fecha
+    };
+    console.log(myData.fecha);
+    axios.post(
+      `https://nasa-clima-default-rtdb.firebaseio.com/dates.json`, 
+      JSON.stringify(dateObject)
+      ).then(response => {
         console.log(response.data);
         callback(response.data);
     })
     .catch(err => {
       if (err.response) {
+        console.log(err.response.data);
         callback(false)
       } else if (err.request) {
+        console.log(err.request.data);
+
         callback(false)
       } else {
         callback(false)
       }
     })
-    
+  }
+  app.get("/list/dates", (res) =>{
+    obtainFirebaseList(myData, info => {
+      res.send(info);
+    });
+  });
+  async function obtainFirebaseList(callback) {
+    axios.get(
+      `https://nasa-clima-default-rtdb.firebaseio.com/dates.json` ).then(response => {
+        callback(response.data);
+    })
+    .catch(err => {
+      if (err.response) {
+        console.log(err.response.data);
+        callback(false)
+      } else if (err.request) {
+        console.log(err.request.data);
+
+        callback(false)
+      } else {
+        callback(false)
+      }
+    })
   }
   app.get("/getatmosferas", (req, res) => {
     getclimate(info => {

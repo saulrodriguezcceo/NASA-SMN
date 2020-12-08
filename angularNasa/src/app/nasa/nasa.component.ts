@@ -11,8 +11,12 @@ import { ApisService } from '../apis.service'
 export class NasaComponent implements OnInit {
   bandera:boolean;
   bandera2:boolean;
+  flag:boolean;
   res:any;
-  constructor(private formBuilder: FormBuilder, public apis:ApisService) {this.bandera2=false; }
+  constructor(private formBuilder: FormBuilder, public apis:ApisService) {
+    this.bandera2=false;
+    this.flag = false; 
+  }
   fecha=new FormControl("", [
     Validators.required,
     Validators.minLength(4)
@@ -45,6 +49,26 @@ export class NasaComponent implements OnInit {
       err => {
         this.bandera=false;
         console.log(err);
+      }
+      
+    );
+   
+  }
+  guardar(){
+    this.flag = false;
+    let datos ={
+      fecha: this.fecha.value,
+    }
+    console.log(datos.fecha);
+    
+    this.apis.sendFecha("http://localhost:3000/save/date",datos).subscribe(
+      data => {
+        this.flag = true;
+        console.log(data);
+      },
+      err => {
+        console.log(err);
+
       }
       
     );

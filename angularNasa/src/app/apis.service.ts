@@ -17,4 +17,7 @@ export class ApisService {
   getClimates(url, data){
     return this.httpClient.post(url, data);
  }
+ saveDate(url, data){
+  return this.httpClient.post(url, data);
+}
 }
