@@ -1,1 +1,11 @@
-<p>favoritos works!</p>
+
+<div *ngFor="let res of estados">
+    <div class="card border-danger form-group mb-3" style="max-width: 50rem;">
+        <div class="card-header bg-danger text-white">{{res.title}}</div>
+        <div class="card-body" >
+            <h4 class="card-title">{{res.date}}</h4>
+            <p class="card-text">{{res.explanation}}</p>
+            <img class="card-img-top" [src]="res.url" >
+        </div>
+    </div>
+</div>

@@ -69,17 +69,17 @@ app.post("/sendfecha", (req, res) => {
       }
     })
   }
-  app.get("/list/dates", (res) =>{
-    obtainFirebaseList(myData, info => {
+  app.get("/list/dates", (req, res) =>{
+    obtainFirebaseList( info => {
       res.send(info);
     });
   });
   async function obtainFirebaseList(callback) {
     axios.get(
       `https://nasa-clima-default-rtdb.firebaseio.com/dates.json` ).then(response => {
+        console.log(response.data);
         callback(response.data);
-    })
-    .catch(err => {
+    }).catch(err => {
       if (err.response) {
         console.log(err.response.data);
         callback(false)

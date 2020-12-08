@@ -19,5 +19,8 @@ export class ApisService {
  }
  saveDate(url, data){
   return this.httpClient.post(url, data);
-}
+  }
+  getDates(url){
+    return (this.httpClient.get(url)).pipe(map((data:any)=>data));
+  }
 }
