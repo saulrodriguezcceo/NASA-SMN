@@ -41,8 +41,9 @@ app.post("/sendfecha", (req, res) => {
     let myData = req.body;
     
     postDateFirebase(myData, info => {
-      res.send(info);
+        res.send(info);
     });
+    
   });
   async function postDateFirebase(myData, callback) {
     var dateObject = {
@@ -52,17 +53,51 @@ app.post("/sendfecha", (req, res) => {
     axios.post(
       `https://nasa-clima-default-rtdb.firebaseio.com/dates.json`, 
       JSON.stringify(dateObject)
+
+      ).then(response => {
+        axios.post(
+          `https://nasa-clima-nodo2-default-rtdb.europe-west1.firebasedatabase.app/dates.json`, 
+          JSON.stringify(dateObject)
+          ).then(response => {
+            console.log(response.data);
+            callback(response.data);
+        }).catch.catch(err => {
+          if (err.response) {
+            callback(false)
+          } else if (err.request) {
+            callback(false)
+          } else {
+            callback(false)
+          }
+        });
+    }).catch(err => {
+      if (err.response) {
+
+        callback(false)
+      } else if (err.request) {
+
+        callback(false)
+      } else {
+        callback(false)
+      }
+    });
+  }
+
+  async function postDateFirebaseNode2(myData, callback) {
+    var dateObject = {
+      date : myData.fecha
+    };
+    axios.post(
+      `https://nasa-clima-nodo2-default-rtdb.europe-west1.firebasedatabase.app/dates.json`, 
+      JSON.stringify(dateObject)
       ).then(response => {
         console.log(response.data);
         callback(response.data);
     })
     .catch(err => {
       if (err.response) {
-        console.log(err.response.data);
         callback(false)
       } else if (err.request) {
-        console.log(err.request.data);
-
         callback(false)
       } else {
         callback(false)
@@ -77,20 +112,49 @@ app.post("/sendfecha", (req, res) => {
   async function obtainFirebaseList(callback) {
     axios.get(
       `https://nasa-clima-default-rtdb.firebaseio.com/dates.json` ).then(response => {
-        console.log(response.data);
         callback(response.data);
     }).catch(err => {
       if (err.response) {
-        console.log(err.response.data);
-        callback(false)
+        axios.get(
+          `https://nasa-clima-nodo2-default-rtdb.europe-west1.firebasedatabase.app/dates.json` ).then(response => {
+            callback(response.data);
+        }).catch(err => {
+          if (err.response) {
+            callback(false);
+          } else if (err.request) {
+            callback(false);
+          } else {
+            callback(false);
+          }
+        });
       } else if (err.request) {
-        console.log(err.request.data);
-
-        callback(false)
+        axios.get(
+          `https://nasa-clima-nodo2-default-rtdb.europe-west1.firebasedatabase.app/dates.json` ).then(response => {
+            callback(response.data);
+        }).catch(err => {
+          if (err.response) {
+            callback(false);
+          } else if (err.request) {
+            callback(false);
+          } else {
+            callback(false);
+          }
+        });
       } else {
-        callback(false)
+        axios.get(
+          `https://nasa-clima-nodo2-default-rtdb.europe-west1.firebasedatabase.app/dates.json` ).then(response => {
+            callback(response.data);
+        }).catch(err => {
+          if (err.response) {
+            callback(false);
+          } else if (err.request) {
+            callback(false);
+          } else {
+            callback(false);
+          }
+        });
       }
-    })
+    });
   }
   app.get("/getatmosferas", (req, res) => {
     getclimate(info => {
