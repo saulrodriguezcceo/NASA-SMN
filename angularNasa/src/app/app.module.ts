@@ -9,13 +9,15 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FavoritosComponent } from './favoritos/favoritos.component';
+import { InicioComponent } from './inicio/inicio.component';
 @NgModule({
   declarations: [
     AppComponent,
     NasaComponent,
     GobiernoComponent,
     NavbarComponent,
-    FavoritosComponent
+    FavoritosComponent,
+    InicioComponent
   ],
   imports: [
     BrowserModule,
